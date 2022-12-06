@@ -29,7 +29,7 @@ public class ReadOnlySlider {
         } else {
             slider.setColorBackground(Color.blue.getRGB());
             slider.addListener(listener);
-            slider.setLock(true);
+            slider.setLock(false);
         }
     }
 }
