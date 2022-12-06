@@ -10,7 +10,7 @@ import java.awt.*;
 import static controlP5.ControlP5Constants.ACTION_RELEASE;
 
 public class ReadOnlyBtn {
-
+    CColor originalColor;
     Button btn;
     CallbackListener listener;
     private boolean readOnly;
@@ -19,22 +19,22 @@ public class ReadOnlyBtn {
         this.btn = btn;
         this.listener = listener;
         readOnly = false;
+        originalColor = btn.getColor();
     }
 
     public boolean isEnabled() {
         return readOnly;
     }
 
-    void setDisabled(boolean state) {
+    public void setDisabled(boolean state) {
         readOnly = state;
         if (state) {
             CColor gray = new CColor().setBackground(Color.gray.getRGB());
             btn.setColor(gray);
-            btn.removeCallback(this.listener);
+            btn.removeListenerFor(ACTION_RELEASE,this.listener);
         }else {
-            CColor white = new CColor().setBackground(Color.white.getRGB());
-            btn.setColor(white);
-            btn.addCallback(this.listener);
+            btn.setColor(originalColor);
+            btn.addListenerFor(ACTION_RELEASE,(this.listener));
         }
     }
 }

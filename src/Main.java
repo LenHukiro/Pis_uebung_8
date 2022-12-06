@@ -1,9 +1,14 @@
 import controlP5.*;
 import processing.core.PApplet;
 
+import static controlP5.ControlP5Constants.ACTION_RELEASE;
+
 public class Main extends PApplet {
     ControlP5 p5;
     int sliderVal = 0, btnVal = 0;
+    Button btn,disableBtn;
+    Slider slider;
+
     public static void main(String[] args) {
         PApplet.main(new String[]{"Main"});
     }
@@ -11,28 +16,31 @@ public class Main extends PApplet {
     @Override
     public void setup() {
         p5 = new ControlP5(this);
-        Button btn = p5.addButton("TestButton");
-        Slider slider = p5.addSlider("TestSlider");
+        btn = p5.addButton("TestButton");
+        disableBtn = p5.addButton("DisableBtn");
+        slider = p5.addSlider("TestSlider");
 
         slider.setValue(sliderVal);
         btn.setLabel(String.valueOf(btnVal));
 
-        ControlListener controlListener = controlEvent -> sliderVal  = (int) slider.getValue();
-        CallbackListener callbackListener = callbackEvent -> btnVal = (int) btn.getValue()+1;
-        slider.addListener(controlListener);
-        btn.addCallback(callbackListener);
+       // ControlListener controlListener = controlEvent -> sliderVal = sliderVal;
+        CallbackListener callbackListener = callbackEvent -> btnVal = btnVal + 1;
 
-        new ReadOnlySlider(slider,controlListener);
-        new ReadOnlyBtn(btn,callbackListener);
+        ReadOnlyBtn readOnlyBtn = new ReadOnlyBtn(btn, callbackListener);
+
+        btn.addListenerFor(ACTION_RELEASE,(callbackListener));
+        disableBtn.addListenerFor(ACTION_RELEASE, callbackEvent -> readOnlyBtn.setDisabled(!readOnlyBtn.isEnabled()));
+       // new ReadOnlySlider(slider, controlListener);
+
     }
 
     @Override
     public void settings() {
-        size( 200,400);
+        size(200, 400);
     }
 
     @Override
     public void draw() {
-        super.draw();
+        btn.setLabel(String.valueOf(btnVal));
     }
 }
