@@ -5,6 +5,8 @@ import controlP5.CallbackListener;
 
 import javax.security.auth.callback.Callback;
 
+import java.awt.*;
+
 import static controlP5.ControlP5Constants.ACTION_RELEASE;
 
 public class ReadOnlyBtn {
@@ -26,10 +28,12 @@ public class ReadOnlyBtn {
     void setDisabled(boolean state) {
         readOnly = state;
         if (state) {
-            CColor gray = new CColor().setBackground(255);
+            CColor gray = new CColor().setBackground(Color.gray.getRGB());
             btn.setColor(gray);
             btn.removeCallback(this.listener);
         }else {
+            CColor white = new CColor().setBackground(Color.white.getRGB());
+            btn.setColor(white);
             btn.addCallback(this.listener);
         }
     }
