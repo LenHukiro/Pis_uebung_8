@@ -1,5 +1,8 @@
 import controlP5.*;
+import controlP5.Button;
 import processing.core.PApplet;
+
+import java.awt.*;
 
 import static controlP5.ControlP5Constants.ACTION_RELEASE;
 
@@ -16,15 +19,15 @@ public class Main extends PApplet {
     @Override
     public void setup() {
         p5 = new ControlP5(this);
-        btn = p5.addButton("TestButton");
-        disableBtn = p5.addButton("DisableBtn");
+        btn = p5.addButton("TestButton").setColor(new CColor().setBackground(Color.BLUE.getRGB()));
+        disableBtn = p5.addButton("DisableButton").setColor(new CColor().setBackground(Color.BLUE.getRGB()));
         slider = p5.addSlider("TestSlider");
 
         slider.setValue(sliderVal);
         btn.setLabel(String.valueOf(btnVal));
 
        // ControlListener controlListener = controlEvent -> sliderVal = sliderVal;
-        CallbackListener callbackListener = callbackEvent -> btnVal = btnVal + 1;
+        CallbackListener callbackListener = callbackEvent -> btn.setLabel(String.valueOf(btnVal+=1));;
 
         ReadOnlyBtn readOnlyBtn = new ReadOnlyBtn(btn, callbackListener);
 
@@ -41,6 +44,5 @@ public class Main extends PApplet {
 
     @Override
     public void draw() {
-        btn.setLabel(String.valueOf(btnVal));
     }
 }
